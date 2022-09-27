@@ -103,12 +103,12 @@ model = keras.models.load_model(model_path, custom_objects = {"InpaintContextAtt
 
 model.layers[-1].activation = None
 
-files = sorted(glob.glob(args.img_dir+"/*.png"))
+files = sorted(glob.glob(args.img_dir+"*.png"))
 if not os.path.exists("gradOut_classifier/"):
     os.mkdir("gradOut_classifier/")
     
 for file in files:
-    img = cv2.imread("images/context/"+file)[:,:, ::-1]
+    img = cv2.imread(file)[:,:, ::-1]
     img = np.expand_dims(img,axis=0)
     img_array = tf.keras.applications.vgg19.preprocess_input(img)
     preds = model.predict(img_array)
