@@ -103,7 +103,7 @@ model = keras.models.load_model(model_path, custom_objects = {"InpaintContextAtt
 
 model.layers[-1].activation = None
 
-files = sorted(glob.glob(args.img_dir))
+files = sorted(glob.glob(args.img_dir+"/*.png"))
 if not os.path.exists("gradOut_classifier/"):
     os.mkdir("gradOut_classifier/")
     
