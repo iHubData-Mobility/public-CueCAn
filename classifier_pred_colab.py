@@ -48,13 +48,13 @@ for file in image_generator.filenames:
 
 if os.path.exists("out_classifier/"):
     for idx,file in enumerate(file_names):
-        img = cv2.imread(file)[:,:, ::-1]
-        img = cv2.putText(img, "Classifier Score: "+str(res[idx]), (10,10),cv2.FONT_HERSHEY_SIMPLEX,1, (255,0,0),1,cv2.LINE_AA)
+        img = cv2.imread('images/context/'+file)
+        img = cv2.putText(img, "Classifier Score: "+str(res[idx]), (10,50),cv2.FONT_HERSHEY_SIMPLEX,0.5, (255,0,0),1,cv2.LINE_AA)
         cv2.imwrite("out_classifier/"+file, img)
         
 else:
     os.mkdir("out_classifier/")
     for idx,file in enumerate(file_names):
-        img = cv2.imread(file)
-        img = cv2.putText(img, "Classifier Score: "+str(res[idx]), (10,10),cv2.FONT_HERSHEY_SIMPLEX,1, (255,0,0),1,cv2.LINE_AA)
+        img = cv2.imread('images/context/'+file)
+        img = cv2.putText(img, "Classifier Score: "+str(res[idx]), (10,50),cv2.FONT_HERSHEY_SIMPLEX,0.5, (255,0,0),1,cv2.LINE_AA)
         cv2.imwrite("out_classifier/"+file, img)
