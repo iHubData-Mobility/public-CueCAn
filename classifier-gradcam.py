@@ -5,7 +5,6 @@ from IPython.display import Image, display
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import tensorflow as tf
-import keras
 import glob
 from PIL import ImageDraw
 import os
