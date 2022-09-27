@@ -59,9 +59,4 @@ else:
         img = cv2.imread('images/context/'+file)
         img = cv2.putText(img, "Classifier Score: "+str(res[idx]), (10,50),cv2.FONT_HERSHEY_SIMPLEX,0.5, (255,0,0),1,cv2.LINE_AA)
         cv2.imwrite("out_classifier/"+file, img)
-        
-files = sorted(glob.glob("out_classifier/*.png"))
-for file in files:
-  img = image.load_img(file)
-  
-img.show()
+       
