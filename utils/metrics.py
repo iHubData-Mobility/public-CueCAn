@@ -1,6 +1,4 @@
 import tensorflow as tf
-
-
 class MeanIoU(tf.keras.metrics.MeanIoU):
     def update_state(self, y_true, y_pred, sample_weight=None):
         # sparse code
