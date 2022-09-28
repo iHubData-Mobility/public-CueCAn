@@ -5,6 +5,7 @@ import os
 import shutil
 
 files = sorted(glob.glob("segment_out/predictions/*.png"))
+os.mkdir("processed_out/")
 
 for file in files:
     img = cv2.imread(file,0)
