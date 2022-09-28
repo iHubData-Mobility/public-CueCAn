@@ -1,11 +1,3 @@
-"""
-The implementation of FCN-8s/16s/32s based on Tensorflow.
-
-@Author: Yang Lu
-@Github: https://github.com/luyanger1799
-@Project: https://github.com/luyanger1799/amazing-semantic-segmentation
-
-"""
 from models import Network
 import tensorflow as tf
 

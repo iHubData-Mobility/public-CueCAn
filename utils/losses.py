@@ -1,11 +1,3 @@
-"""
-The implementation of some losses based on Tensorflow.
-
-@Author: Yang Lu
-@Github: https://github.com/luyanger1799
-@Project: https://github.com/luyanger1799/amazing-semantic-segmentation
-
-"""
 import tensorflow as tf
 
 backend = tf.keras.backend

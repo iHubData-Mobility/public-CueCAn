@@ -1,6 +1,3 @@
-"""
-@author:varungupta
-"""
 import tensorflow as tf
 from PIL import Image
 from keras_applications import imagenet_utils

@@ -1,11 +1,3 @@
-"""
-The implementation of some metrics based on Tensorflow.
-
-@Author: Yang Lu
-@Github: https://github.com/luyanger1799
-@Project: https://github.com/luyanger1799/amazing-semantic-segmentation
-
-"""
 import tensorflow as tf
 
 

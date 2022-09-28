@@ -1,11 +1,3 @@
-"""
-The implementation of Network based on Tensorflow.
-
-@Author: Yang Lu
-@Github: https://github.com/luyanger1799
-@Project: https://github.com/luyanger1799/amazing-semantic-segmentation
-
-"""
 from base_models import *
 
 

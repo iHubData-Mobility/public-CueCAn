@@ -1,11 +1,3 @@
-"""
-The implementation of some utils.
-
-@Author: Yang Lu
-@Github: https://github.com/luyanger1799
-@Project: https://github.com/luyanger1799/amazing-semantic-segmentation
-
-"""
 from keras_preprocessing import image as keras_image
 from PIL import Image
 import numpy as np
