@@ -68,7 +68,8 @@ def check_dataset_path(dataset_path):
 
 
 def check_related_path(current_path):
-    current_path = "/ssd_scratch/cvit/varun/modeltest/"
+    os.mkdir("segment_out/")
+    current_path = "./segment_out/"
     #current_path = "/home2/varungupta/Amazing-Semantic-Segmentation/diagram/"
     assert os.path.exists(current_path)
 
