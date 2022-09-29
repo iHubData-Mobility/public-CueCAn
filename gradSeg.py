@@ -9,37 +9,40 @@ import cv2
 from keras_applications import imagenet_utils
 import glob
 import os
-
 # Display
 from IPython.display import Image, display
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
+import argparse
+
 
 def self_balanced_focal_loss(alpha=3, gamma=2.0):
-    def loss(y_true, y_pred):
-    
-        y_pred = backend.softmax(y_pred, -1)
-        cross_entropy = backend.categorical_crossentropy(y_true, y_pred)
-        sample_weights = backend.max(backend.pow(1.0 - y_pred, gamma) * y_true, axis=-1)
-        # class weights
-        pixel_rate = backend.sum(y_true, axis=[1, 2], keepdims=True) / backend.sum(backend.ones_like(y_true),
-                                                                                   axis=[1, 2], keepdims=True)
-        class_weights = backend.max(backend.pow(backend.ones_like(y_true) * alpha, pixel_rate) * y_true, axis=-1)
+  """
+  Originally Implemented by @luyanger1799 [GitHub]
+  """
+  def loss(y_true, y_pred):
+  
+      y_pred = backend.softmax(y_pred, -1)
+      cross_entropy = backend.categorical_crossentropy(y_true, y_pred)
+      sample_weights = backend.max(backend.pow(1.0 - y_pred, gamma) * y_true, axis=-1)
+      # class weights
+      pixel_rate = backend.sum(y_true, axis=[1, 2], keepdims=True) / backend.sum(backend.ones_like(y_true),
+                                                                                  axis=[1, 2], keepdims=True)
+      class_weights = backend.max(backend.pow(backend.ones_like(y_true) * alpha, pixel_rate) * y_true, axis=-1)
 
-        # final loss
-        final_loss = class_weights * sample_weights * cross_entropy
-        return backend.mean(backend.sum(final_loss, axis=[1, 2]))
-    return loss
+      # final loss
+      final_loss = class_weights * sample_weights * cross_entropy
+      return backend.mean(backend.sum(final_loss, axis=[1, 2]))
+  return loss
 
 def get_img_array(img_path, size):
-    
+
     img = tf.keras.utils.load_img(img_path, target_size=size)
     # `array` is a float32 Numpy array of shape (299, 299, 3)
     array = tf.keras.utils.img_to_array(img)
     # We add a dimension to transform our array into a "batch"
     array = np.expand_dims(array, axis=0)
     return array
-
 
 def make_gradcam_heatmap(img_array, model, last_conv_layer_name,idx1,idx2):
     
@@ -85,37 +88,35 @@ def save_and_display_gradcam(img_path, heatmap, cam_path="cam.jpg", alpha=1):
     # Save the superimposed image
     superimposed_img.save(cam_path)
 
-#Identifying the centroid coordinates.
+
 def get_cord(img):
-    points = []
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    ret, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
-    cont, hier = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    for c in cont:
-        extLeft = tuple(c[c[:, :, 0].argmin()][0])
-        extRight = tuple(c[c[:, :, 0].argmax()][0])
-        extTop = tuple(c[c[:, :, 1].argmin()][0])
-        extBot = tuple(c[c[:, :, 1].argmax()][0])
-    output = cv2.connectedComponentsWithStats(thresh, 4, cv2.CV_32S)
-    (numLabels, labels, stats, centroids) = output
-    for i in range(1, numLabels):
-        (cX, cY) = centroids[i]
-        points.append((cX,cY))
-        #p1_x = (cX+extLeft[0])/2.0
-        #p1_y = (cY+extLeft[1])/2.0
-        #p1_x = (cX+extRight[0])/2.0
-        #p1_y = (cY+extRight[1])/2.0
-        #p1_x = (cX+extTop[0])/2.0
-        #p1_y = (cY+extTop[1])/2.0
-
-        #p1_x = (cX+extBot[0])/2.0
-        #p1_y = (cY+extBot[1])/2.0
-        
-        #points.append(extLeft)
-    return points
+  """
+  #Identifying the centroid coordinates.
+  """
+  points = []
+  gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+  ret, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+  cont, hier = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+  for c in cont:
+      extLeft = tuple(c[c[:, :, 0].argmin()][0])
+      extRight = tuple(c[c[:, :, 0].argmax()][0])
+      extTop = tuple(c[c[:, :, 1].argmin()][0])
+      extBot = tuple(c[c[:, :, 1].argmax()][0])
+  output = cv2.connectedComponentsWithStats(thresh, 4, cv2.CV_32S)
+  (numLabels, labels, stats, centroids) = output
+  for i in range(1, numLabels):
+      (cX, cY) = centroids[i]
+      points.append((cX,cY))
+  return points
 
 
-model = keras.models.load_model('cuecan_segmenter.h5',
+parser = argparse.ArgumentParser()
+parser.add_argument("-m", "--model_dir", help="Path to the h5 model file")
+parser.add_argument("-i", "--img_dir", help="path to image data")
+args = parser.parse_args()
+
+
+model = keras.models.load_model(args.model_dir,
                                  custom_objects={'loss':self_balanced_focal_loss(alpha=3, gamma=2.0),
                                  'InpaintContextAttentionUnit':InpaintContextAttentionUnit,
                                  'InpaintContextAttentionUnit5edge':InpaintContextAttentionUnit5edge})
@@ -128,13 +129,13 @@ def decode_one_hot(one_hot_map):
     return np.argmax(one_hot_map, axis=-1)
 
 #image directory
-path = "images/context/"
+path = args.img_dir
 images = list(glob.glob(path+"*.png"))
 img_size = (256, 448)
 last_conv_layer_name = "block5_conv4"
 
-if not os.path.exists("outSeg/"):
-  os.mkdir("outSeg/")
+if not os.path.exists("outSegGrad/"):
+  os.mkdir("outSegGrad/")
 for file in images:
   image = cv2.resize(load_img(file), dsize=(448,256))
   image = imagenet_utils.preprocess_input(image.astype(np.float32), data_format='channels_last', mode='torch')
@@ -161,4 +162,5 @@ for file in images:
     netmap/=len(pairs)
     save_and_display_gradcam(file,netmap, cam_path = "outSeg/"+os.path.basename(file))
   else:
+    #No predictions generated
     continue
