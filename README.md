@@ -8,6 +8,12 @@ https://colab.research.google.com/drive/1ujnqXKmQHUQP91COmuu_HXkjitzh0fGC?usp=sh
 
 <b>Please Note: The accompanied video has been compressed using the HEVC Codec, and may fail to load on Windows media player, and MacOS's default player. Please run the video on VLC player, which comes with the codec support by default. Alternately, the video can also be found [here](https://youtu.be/4ddlGOkUFKU)</b>
 
+### Conda Environment Containing All Required Dependecies
+
+'''
+conda env create --name fcnkeras --file=environment.yml
+'''
+
 # Missing Traffic Signs Video Dataset Samples
 
 ### Missing Signs
