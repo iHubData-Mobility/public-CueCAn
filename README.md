@@ -10,9 +10,7 @@ https://colab.research.google.com/drive/1ujnqXKmQHUQP91COmuu_HXkjitzh0fGC?usp=sh
 
 ### Conda Environment Containing All Required Dependecies
 
-'''
-conda env create --name fcnkeras --file=environment.yml
-'''
+`conda env create --name fcnkeras --file=environment.yml`
 
 # Missing Traffic Signs Video Dataset Samples
 
