@@ -160,7 +160,7 @@ for file in images:
       heatmap = make_gradcam_heatmap(img_array, model, last_conv_layer_name,pair[0],pair[1])
       netmap+=heatmap
     netmap/=len(pairs)
-    save_and_display_gradcam(file,netmap, cam_path = "outSeg/"+os.path.basename(file))
+    save_and_display_gradcam(file,netmap, cam_path = "outSegGrad/"+os.path.basename(file))
   else:
     #No predictions generated
     continue
