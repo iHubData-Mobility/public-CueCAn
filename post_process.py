@@ -21,7 +21,7 @@ for file in files:
         cv2.imwrite("processed_out/"+name,og)
     
     for c in contours:        
-        if(cv2.contourArea(c)>100):
+        if(cv2.contourArea(c)>65):
             x,y,w,h = cv2.boundingRect(c)
             alpha = 0.5
             cv2.rectangle(overlay, (x,y),(x+w,y+h),(0,255,0),-1)
