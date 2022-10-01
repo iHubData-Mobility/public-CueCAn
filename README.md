@@ -36,5 +36,16 @@ https://colab.research.google.com/drive/1ujnqXKmQHUQP91COmuu_HXkjitzh0fGC?usp=sh
 
 ![](https://github.com/iHubData-Mobility/public-CueCAn/blob/main/media/gifs/realtime.gif)
 
+### Running GradCam for Segmentation Task
 
+Due to memory constraints in google colab, the gradCam for segmentation task can be run by the following:
 
+```
+git clone https://github.com/iHubData-Mobility/public-CueCAn.git
+cd public-CueCAn
+conda env create -f environment.yml
+conda activate fcnkeras
+gdown https://drive.google.com/uc?id=1xr0v0f-tMVCE-s_OCz5YCnkTXJW8HsS3
+python gradSeg.py --model_dir cuecan_segmenter.h5 --img_dir images/context
+```
+And the segmentation outputs, would be stored in directory `outSegGrad/`
