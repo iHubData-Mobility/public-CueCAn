@@ -2,11 +2,20 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ujnqXKmQHUQP91COmuu_HXkjitzh0fGC?usp=sharing)
 
+## Dataset Download
+Dataset Name: <i>Missing Traffic Signs Video Dataset (MTSVD)</i>.
+
+Available for download at the following link:
+https://idd.insaan.iiit.ac.in/dataset/download/
+
+## Conference Proceeding
+
+International Conference on Robotics and Automation 2023
+https://ieeexplore.ieee.org/document/10161576 
+
 ## Inference in Colab
 
 https://colab.research.google.com/drive/1ujnqXKmQHUQP91COmuu_HXkjitzh0fGC?usp=sharing
-
-<b>Please Note: The accompanied video has been compressed using the HEVC Codec, and may fail to load on Windows media player, and MacOS's default player. Please run the video on VLC player, which comes with the codec support by default. Alternately, the video can also be found [here](https://youtu.be/4ddlGOkUFKU)</b>
 
 ### Conda Environment Containing All Required Dependecies
 
